@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="Orgena Research AI — Fast, animated, professional promotion site with live demo link." />
+  <meta name="theme-color" content="#0b0f1a" />
+  <title>Orgena Research AI — Research at the speed of thought</title>
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Orgena Research AI — Research at the speed of thought" />
+  <meta property="og:description" content="A lightning-fast, browser-native research companion. Fetch, synthesize, and structure facts instantly." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="https://hpd666.github.io/Orgena-Research-AI/favicon.png" />
+  <meta property="og:url" content="https://hpd666.github.io/Orgena-Research-AI/" />
+
+  <!-- Favicon (optional, uses Orgena's if present) -->
+  <link rel="icon" href="https://hpd666.github.io/Orgena-Research-AI/favicon.png" />
+
+  <style>
+    :root{
+      --bg:#070b14;
+      --bg-2:#0b1020;
+      --txt:#e6eefc;
+      --muted:#b6c4e6;
+      --brand:#6cf3ff;
+      --brand-2:#7ee787;
+      --accent:#ffb86b;
+      --danger:#ff6b6b;
+      --card:#0f1426;
+      --border:#1d2742;
+      --shadow:rgba(0,0,0,.35);
+      --glow:rgba(108,243,255,.35);
+      --max:1120px;
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,'Helvetica Neue',Arial,'Noto Sans',sans-serif;
+      color:var(--txt);
+      background:
+        radial-gradient(80vw 80vh at 10% 10%, #0b1230 0%, transparent 60%),
+        radial-gradient(60vw 80vh at 90% 20%, #10183a 0%, transparent 60%),
+        linear-gradient(180deg, var(--bg) 0%, var(--bg-2) 100%);
+      overflow-x:hidden;
+    }
+
+    /* Smooth entrance */
+    .fade-in{opacity:0; transform:translateY(12px); transition:opacity .8s ease, transform .8s ease}
+    .fade-in.show{opacity:1; transform:translateY(0)}
+
+    /* Navigation */
+    .nav{
+      position:sticky; top:0; z-index:50;
+      backdrop-filter:saturate(120%) blur(8px);
+      background:linear-gradient(180deg, rgba(7,11,20,.85), rgba(7,11,20,.6));
+      border-bottom:1px solid var(--border);
+    }
+    .nav-inner{
+      max-width:var(--max);
+      margin:0 auto;
+      display:flex; align-items:center; justify-content:space-between;
+      padding:14px 20px;
+    }
+    .brand{
+      display:flex; align-items:center; gap:12px; text-decoration:none; color:var(--txt)
+    }
+    .brand-logo{
+      width:36px; height:36px; border-radius:10px;
+      background: radial-gradient(100% 100% at 30% 30%, var(--brand) 0%, #3ab0c0 35%, #153b46 100%);
+      box-shadow:0 0 20px var(--glow), inset 0 0 20px rgba(255,255,255,.08);
+      position:relative;
+    }
+    .brand-logo::after{
+      content:"";
+      position:absolute; inset:6px;
+      border-radius:8px;
+      background:conic-gradient(from 140deg, rgba(255,255,255,.75), transparent 40%, rgba(255,255,255,.35), transparent 80%, rgba(255,255,255,.75));
+      mix-blend:overlay; opacity:.25;
+      animation:spin 9s linear infinite;
+    }
+    @keyframes spin{to{transform:rotate(360deg)}}
+    .brand-name{
+      font-weight:700; letter-spacing:.4px
+    }
+    .nav-links{
+      display:flex; gap:18px; align-items:center
+    }
+    .nav-links a{
+      color:var(--muted); text-decoration:none; font-weight:500; padding:8px 10px; border-radius:8px;
+    }
+    .nav-links a:hover{color:var(--txt); background:rgba(255,255,255,.04)}
+    .btn{
+      display:inline-flex; align-items:center; gap:10px;
+      padding:10px 16px; border-radius:12px; border:1px solid var(--border);
+      color:var(--txt); text-decoration:none; font-weight:600;
+      background:linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.02));
+      box-shadow:0 8px 24px -12px var(--shadow);
+      transition:transform .2s ease, box-shadow .2s ease, border-color .2s ease, background .2s ease;
+      will-change:transform;
+    }
+    .btn:hover{transform:translateY(-2px); box-shadow:0 16px 36px -14px var(--shadow); border-color:#2b3a64}
+    .btn-primary{
+      border-color:#1e314f;
+      background:
+        radial-gradient(100% 100% at 50% 0%, rgba(108,243,255,.25) 0%, rgba(108,243,255,0) 50%),
+        linear-gradient(180deg, rgba(70,160,255,.25), rgba(70,160,255,.08));
+    }
+    .btn-outline{
+      background:transparent; border-color:#263557;
+    }
+    .btn-pill{border-radius:999px; padding:10px 18px}
+
+    /* Hero */
+    .hero{
+      position:relative;
+      padding:80px 20px 40px;
+      overflow:hidden;
+    }
+    .hero-inner{
+      max-width:var(--max); margin:0 auto;
+      display:grid; grid-template-columns:1.05fr .95fr; gap:30px;
+      align-items:center;
+    }
+    @media (max-width:980px){.hero-inner{grid-template-columns:1fr}}
+    .hero h1{
+      font-size:clamp(30px, 6vw, 56px);
+      line-height:1.05; margin:0 0 16px;
+      letter-spacing:.3px;
+      background:linear-gradient(90deg, var(--txt), #a9e6ff 70%);
+      -webkit-background-clip:text; background-clip:text; color:transparent;
+    }
+    .hero p{
+      color:var(--muted);
+      font-size:clamp(16px, 2.6vw, 19px);
+      line-height:1.6; margin:0 0 20px;
+    }
+    .hero-cta{display:flex; gap:12px; flex-wrap:wrap; margin-top:14px}
+
+    /* Hero visual card */
+    .hero-card{
+      position:relative; border:1px solid var(--border); border-radius:18px;
+      background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+      box-shadow:0 12px 40px -14px var(--shadow), inset 0 0 32px rgba(255,255,255,.04);
+      padding:18px; min-height:320px; overflow:hidden;
+    }
+    .grid-bg{
+      position:absolute; inset:-2px; z-index:0;
+      background-image: radial-gradient(#19345a 1px, transparent 1px);
+      background-size:22px 22px; opacity:.25;
+      animation:gridPan 18s linear infinite;
+    }
+    @keyframes gridPan{
+      0%{transform:translate3d(0,0,0)}
+      50%{transform:translate3d(-40px,-20px,0)}
+      100%{transform:translate3d(0,0,0)}
+    }
+    .pulse{
+      position:absolute; width:140px; height:140px; border-radius:50%;
+      right:20px; bottom:18px; z-index:1;
+      background:radial-gradient(closest-side, rgba(108,243,255,.35), transparent 75%);
+      filter:blur(12px); animation:pulseGlow 6s ease-in-out infinite;
+    }
+    @keyframes pulseGlow{
+      0%,100%{opacity:.25; transform:scale(.95)}
+      50%{opacity:.6; transform:scale(1.05)}
+    }
+
+    /* Code-like demo frame in hero */
+    .demo-frame{
+      position:relative; z-index:2;
+      border-radius:12px; border:1px solid #243459;
+      background:linear-gradient(180deg, #0c1327, #0a1022);
+      box-shadow:0 20px 40px -20px var(--shadow);
+      overflow:hidden;
+    }
+    .demo-title{
+      display:flex; align-items:center; gap:8px;
+      padding:10px 12px;
+      border-bottom:1px solid #1f2c4f;
+      background:linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,0));
+      font-size:14px; color:#9fb2da;
+    }
+    .demo-title .dots{
+      display:flex; gap:6px; margin-right:8px;
+    }
+    .dot{width:10px; height:10px; border-radius:50%}
+    .dot.r{background:#ff6b6b}
+    .dot.y{background:#ffb86b}
+    .dot.g{background:#7ee787}
+
+    .demo-body{
+      padding:14px; font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      color:#b9d5ff; font-size:14px; line-height:1.55;
+      min-height:180px;
+    }
+    .caret{
+      display:inline-block; width:10px; height:18px; background:#6cf3ff;
+      box-shadow:0 0 12px var(--glow); animation:blink 1.1s steps(2,end) infinite;
+      vertical-align:bottom; transform:translateY(3px);
+    }
+    @keyframes blink{50%{opacity:0}}
+
+    /* Mini stat chips */
+    .chips{display:flex; gap:10px; flex-wrap:wrap; margin-top:12px}
+    .chip{
+      display:inline-flex; align-items:center; gap:8px;
+      border:1px solid #243459; border-radius:999px;
+      padding:8px 12px; font-size:13px; color:#9fb2da;
+      background:linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.01));
+    }
+    .chip svg{opacity:.9}
+
+    /* Section */
+    section{padding:60px 20px}
+    .wrap{max-width:var(--max); margin:0 auto}
+
+    /* Features grid */
+    .features{
+      display:grid; grid-template-columns:repeat(3,1fr); gap:18px;
+    }
+    @media (max-width:980px){.features{grid-template-columns:1fr 1fr}}
+    @media (max-width:640px){.features{grid-template-columns:1fr}}
+    .card{
+      border:1px solid var(--border); border-radius:16px;
+      background:linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+      padding:18px; box-shadow:0 10px 32px -18px var(--shadow);
+      transition:transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+    }
+    .card:hover{transform:translateY(-3px); box-shadow:0 18px 40px -18px var(--shadow); border-color:#2a3a62}
+    .card h3{margin:4px 0 8px; font-size:18px}
+    .card p{margin:0; color:var(--muted)}
+    .icon{
+      width:38px; height:38px; border-radius:12px; margin-bottom:8px;
+      display:grid; place-items:center;
+      background:radial-gradient(100% 100% at 30% 30%, rgba(108,243,255,.2), transparent 60%);
+      border:1px solid #263a5c;
+    }
+
+    /* Animated timeline */
+    .timeline{
+      position:relative; margin-top:20px;
+      border-left:2px dashed #254069; padding-left:20px;
+    }
+    .timeline .step{margin:18px 0; position:relative}
+    .timeline .step::before{
+      content:""; position:absolute; left:-11px; top:2px;
+      width:14px; height:14px; border-radius:50%;
+      background:radial-gradient(closest-side, var(--brand), #1a3748 90%);
+      box-shadow:0 0 18px var(--glow);
+      animation:pulseDot 2.8s ease-in-out infinite;
+    }
+    @keyframes pulseDot{
+      0%,100%{transform:scale(.85); opacity:.8}
+      50%{transform:scale(1.05); opacity:1}
+    }
+
+    /* Comparison table */
+    .compare{
+      width:100%; border-collapse:separate; border-spacing:0; overflow:hidden;
+      border:1px solid var(--border); border-radius:16px;
+      background:linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+      box-shadow:0 10px 30px -18px var(--shadow);
+    }
+    .compare th, .compare td{
+      padding:14px 16px; text-align:left; border-bottom:1px solid #1f2c4f;
+    }
+    .compare thead th{
+      color:#a9c3f5; font-size:14px; letter-spacing:.3px;
+      background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+    }
+    .compare tbody tr:last-child td{border-bottom:none}
+    .tag{
+      display:inline-block; padding:6px 10px; border-radius:999px; font-size:12px; font-weight:700;
+      border:1px solid #28406a; color:#cfe8ff; background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+    }
+    .tag.success{border-color:#2b5f3c; color:#d7ffe2; background:linear-gradient(180deg, rgba(126,231,135,.18), rgba(126,231,135,.06))}
+    .tag.warn{border-color:#5f4f2b; color:#ffe9cf; background:linear-gradient(180deg, rgba(255,184,107,.18), rgba(255,184,107,.06))}
+    .tag.info{border-color:#2b4f5f}
+
+    /* CTA section */
+    .cta{
+      text-align:center;
+      background:
+        radial-gradient(100% 100% at 80% 30%, rgba(108,243,255,.12), transparent 50%),
+        linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+      border:1px solid var(--border);
+      border-radius:18px; padding:24px;
+      box-shadow:0 16px 40px -18px var(--shadow);
+    }
+    .cta h3{margin:0 0 10px}
+    .cta p{margin:0 0 16px; color:var(--muted)}
+
+    /* Footer */
+    footer{
+      border-top:1px solid var(--border);
+      background:linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,0));
+      padding:24px 20px; color:#9fb2da;
+    }
+    .footer-inner{
+      max-width:var(--max); margin:0 auto;
+      display:flex; gap:16px; justify-content:space-between; flex-wrap:wrap;
+    }
+    .small{font-size:13px; color:#94a8cf}
+
+    /* Reveal on scroll */
+    .reveal{opacity:0; transform:translateY(18px); transition:opacity .7s ease, transform .7s ease}
+    .reveal.show{opacity:1; transform:translateY(0)}
+
+    /* Floating action bubble */
+    .float-demo{
+      position:fixed; right:20px; bottom:20px; z-index:60;
+      display:flex; align-items:center; gap:10px;
+      padding:10px 14px; border:1px solid #24446e; border-radius:999px;
+      background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+      box-shadow:0 12px 30px -16px var(--shadow);
+      color:#b9d5ff; text-decoration:none; font-weight:700;
+      backdrop-filter:saturate(120%) blur(6px);
+      animation:float 5s ease-in-out infinite;
+    }
+    @keyframes float{
+      0%,100%{transform:translateY(0)}
+      50%{transform:translateY(-6px)}
+    }
+    .float-demo:hover{transform:translateY(-2px); box-shadow:0 18px 40px -16px var(--shadow)}
+
+    /* Media helpers */
+    .sr-only{position:absolute !important; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0}
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <a class="brand" href="#top">
+        <div aria-hidden="true" class="brand-logo"></div>
+        <div class="brand-name">Orgena Research AI</div>
+      </a>
+      <div class="nav-links">
+        <a href="#features">Features</a>
+        <a href="#how-it-works">How it works</a>
+        <a href="#compare">Compare</a>
+        <a href="#demo" class="btn btn-outline btn-pill">Open demo</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <header id="top" class="hero">
+    <div class="hero-inner fade-in show">
+      <div>
+        <h1>Research at the speed of thought.</h1>
+        <p>
+          Orgena is a browser‑native research assistant that fetches, structures, and previews factual content across
+          open sources—instantly. No accounts. No friction. Just clean, verifiable results with beautiful output.
+        </p>
+        <div class="chips">
+          <div class="chip">
+            <!-- lightning icon -->
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+              <path d="M13 3L4 14h7l-1 7 10-13h-7l0-5z" fill="#6cf3ff"/>
+            </svg>
+            Fast, keyless
+          </div>
+          <div class="chip">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+              <path d="M4 5h16v4H4zM4 11h10v4H4zM4 17h16v2H4z" fill="#7ee787"/>
+            </svg>
+            Markdown & tables
+          </div>
+          <div class="chip">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+              <circle cx="12" cy="12" r="9" stroke="#ffb86b" stroke-width="2"/>
+              <path d="M12 7v6l4 2" stroke="#ffb86b" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+            Adjustable speed
+          </div>
+        </div>
+        <div class="hero-cta">
+          <a class="btn btn-primary btn-pill" href="https://hpd666.github.io/Orgena-Research-AI/" target="_blank" rel="noopener" aria-label="Open Orgena Research AI demo">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+              <path d="M7 17l10-10M7 7h10v10" stroke="#c9f8ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Open demo
+          </a>
+          <a class="btn btn-outline btn-pill" href="#features">
+            Learn more
+          </a>
+        </div>
+      </div>
+
+      <div class="hero-card">
+        <div class="grid-bg" aria-hidden="true"></div>
+        <div class="pulse" aria-hidden="true"></div>
+        <div class="demo-frame fade-in show" style="margin-top:4px">
+          <div class="demo-title">
+            <div class="dots">
+              <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+            </div>
+            Live preview — structured output
+          </div>
+          <div class="demo-body" id="demoText">
+            > query: "Istanbul weather and Wikipedia summary" <br/>
+            - source: Open-Meteo, Wikipedia, DuckDuckGo, Wikidata<br/>
+            - format: markdown + table + links<br/><br/>
+            | City | Temp | Wind | Source |<br/>
+            |------|------|------|--------|<br/>
+            | Istanbul | 12°C | 18 km/h | Open-Meteo |<br/><br/>
+            Wikipedia: Istanbul is the largest city in Türkiye, straddling Europe and Asia via the Bosphorus.<br/>
+            Links: [Wikipedia] [Wikidata] [External]<span class="caret" aria-hidden="true"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Features -->
+  <section id="features">
+    <div class="wrap">
+      <h2 class="fade-in">Why Orgena?</h2>
+      <p class="fade-in small" style="max-width:760px">
+        Built for instant factual lookup and clean presentation. Orgena compiles answers from trusted open sources,
+        formats them in markdown and tables, and makes sharing effortless.
+      </p>
+
+      <div class="features">
+        <div class="card reveal">
+          <div class="icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+              <path d="M3 11h18M12 3v18" stroke="#6cf3ff" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <h3>Browser‑native</h3>
+          <p>Runs entirely in your browser. No sign‑ups, no keys. Just open and go.</p>
+        </div>
+
+        <div class="card reveal">
+          <div class="icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+              <rect x="3" y="5" width="18" height="14" rx="3" stroke="#7ee787" stroke-width="2"/>
+              <path d="M7 9h10M7 13h10" stroke="#7ee787" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <h3>Structured results</h3>
+          <p>Markdown, tables, code blocks, and source links — ready to copy or publish.</p>
+        </div>
+
+        <div class="card reveal">
+          <div class="icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+              <path d="M5 12a7 7 0 1114 0 7 7 0 01-14 0z" stroke="#ffb86b" stroke-width="2"/>
+              <path d="M12 8v4l3 2" stroke="#ffb86b" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <h3>Adjustable speed</h3>
+          <p>Tune response speed for quick previews or thorough fetches — your call.</p>
+        </div>
+
+        <div class="card reveal">
+          <div class="icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+              <path d="M4 7h16M4 12h16M4 17h16" stroke="#a9c3f5" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <h3>Source‑aware</h3>
+          <p>Pulls from DuckDuckGo Instant Answers, Wikipedia, Wikidata, and Open‑Meteo for weather.</p>
+        </div>
+
+        <div class="card reveal">
+          <div class="icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+              <path d="M6 18l6-12 6 12H6z" fill="#6cf3ff" />
+            </svg>
+          </div>
+          <h3>Fallback reading</h3>
+          <p>Auto‑reads restricted pages in a clean reader view for uninterrupted research.</p>
+        </div>
+
+        <div class="card reveal">
+          <div class="icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+              <path d="M12 2l3 6 6 .5-4.5 4 1.5 6-6-3.5-6 3.5 1.5-6L3 8.5 9 8l3-6z" stroke="#d2deff" stroke-width="2"/>
+            </svg>
+          </div>
+          <h3>Share‑ready</h3>
+          <p>Clean outputs with links and summaries make collaboration fast and simple.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How it works -->
+  <section id="how-it-works">
+    <div class="wrap">
+      <h2 class="fade-in">How it works</h2>
+
+      <div class="timeline reveal">
+        <div class="step">
+          <h3>1 — Ask</h3>
+          <p class="small">Enter a query like “Istanbul weather and summary”. Orgena routes to relevant open sources.</p>
+        </div>
+        <div class="step">
+          <h3>2 — Fetch</h3>
+          <p class="small">Instant Answers, Wikipedia, Wikidata, and Open‑Meteo respond. Reader view fills any gaps.</p>
+        </div>
+        <div class="step">
+          <h3>3 — Structure</h3>
+          <p class="small">Results are formatted in markdown, tables, and linked references — ready to copy.</p>
+        </div>
+        <div class="step">
+          <h3>4 — Share</h3>
+          <p class="small">Publish or paste the output. Clean, verifiable, and portable.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Comparison -->
+  <section id="compare">
+    <div class="wrap">
+      <h2 class="fade-in">Where Orgena shines</h2>
+      <p class="small fade-in" style="max-width:760px">
+        Orgena specializes in fast factual compilation and presentable output — it’s the ideal companion for quick briefs,
+        reports, and knowledge cards.
+      </p>
+
+      <div class="reveal" style="overflow-x:auto">
+        <table class="compare">
+          <thead>
+            <tr>
+              <th>Capability</th>
+              <th>Orgena Research AI</th>
+              <th>Typical search</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Setup</td>
+              <td><span class="tag success">No account / keyless</span></td>
+              <td><span class="tag">Account or tracking</span></td>
+            </tr>
+            <tr>
+              <td>Output</td>
+              <td><span class="tag success">Markdown, tables, links</span></td>
+              <td><span class="tag warn">Unstructured snippets</span></td>
+            </tr>
+            <tr>
+              <td>Speed control</td>
+              <td><span class="tag success">Adjustable</span></td>
+              <td><span class="tag">Fixed</span></td>
+            </tr>
+            <tr>
+              <td>Sources</td>
+              <td><span class="tag info">Wikipedia, Wikidata, DuckDuckGo, Open‑Meteo</span></td>
+              <td><span class="tag">Varies</span></td>
+            </tr>
+            <tr>
+              <td>Reader fallback</td>
+              <td><span class="tag success">Built‑in</span></td>
+              <td><span class="tag">Manual</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- Call to action -->
+  <section id="demo">
+    <div class="wrap">
+      <div class="cta reveal">
+        <h3>Open the live demo</h3>
+        <p>Experience the speed and clarity of Orgena right now — no sign‑up required.</p>
+        <a class="btn btn-primary btn-pill" href="https://hpd666.github.io/Orgena-Research-AI/" target="_blank" rel="noopener">
+          Open demo
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-inner">
+      <div>
+        <div class="brand" style="gap:10px">
+          <div aria-hidden="true" class="brand-logo" style="width:28px;height:28px;border-radius:8px"></div>
+          <strong>Orgena Research AI</strong>
+        </div>
+        <div class="small" style="margin-top:8px">Browser‑native research companion for structured, share‑ready results.</div>
+      </div>
+      <div class="small">
+        © <span id="year"></span> Orgena. All rights reserved.
+      </div>
+    </div>
+  </footer>
+
+  <!-- Floating quick demo button -->
+  <a class="float-demo" href="https://hpd666.github.io/Orgena-Research-AI/" target="_blank" rel="noopener" aria-label="Open Orgena Research AI demo (floating)">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+      <path d="M7 17l10-10M7 7h10v10" stroke="#c9f8ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    Open demo
+  </a>
+
+  <script>
+    // Year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Type effect for hero demo text (non-blocking)
+    (function typeEffect(){
+      const el = document.getElementById('demoText');
+      const full = el.innerHTML;
+      const stripped = full.replace(/<br\/?>/gi, '\n').replace(/<[^>]+>/g, '');
+      el.innerHTML = '';
+      let i = 0;
+      const speed = 18; // ms per char
+      const caret = '<span class="caret" aria-hidden="true"></span>';
+      function tick(){
+        if(i < stripped.length){
+          const esc = stripped.slice(0, i)
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/\n/g, '<br/>');
+          el.innerHTML = esc + caret;
+          i++;
+          requestAnimationFrame(tick);
+        } else {
+          // restore original with formatting once complete
+          el.innerHTML = full;
+        }
+      }
+      setTimeout(tick, 300);
+    })();
+
+    // Reveal on scroll
+    const revealEls = Array.from(document.querySelectorAll('.reveal'));
+    const onScroll = () => {
+      const h = window.innerHeight;
+      revealEls.forEach(el=>{
+        const r = el.getBoundingClientRect();
+        if(r.top < h - 60){ el.classList.add('show'); }
+      });
+    };
+    document.addEventListener('scroll', onScroll, {passive:true});
+    window.addEventListener('load', onScroll);
+
+    // Gentle parallax on hero background pulse
+    const pulse = document.querySelector('.pulse');
+    let ticking = false;
+    window.addEventListener('mousemove', (e)=>{
+      if(!pulse) return;
+      if(!ticking){
+        window.requestAnimationFrame(()=>{
+          const x = (e.clientX / window.innerWidth - 0.5) * 16;
+          const y = (e.clientY / window.innerHeight - 0.5) * 12;
+          pulse.style.transform = `translate(${x}px, ${y}px)`;
+          ticking = false;
+        });
+        ticking = true;
+      }
+    });
+
+    // Prefetch hint on hover for demo links
+    const demoLinks = document.querySelectorAll('a[href*="Orgena-Research-AI"]');
+    demoLinks.forEach(a=>{
+      a.addEventListener('mouseenter', ()=>{
+        const link = document.createElement('link');
+        link.rel = 'prefetch';
+        link.href = a.href;
+        document.head.appendChild(link);
+      }, {once:true});
+    });
+  </script>
+</body>
+</html>
